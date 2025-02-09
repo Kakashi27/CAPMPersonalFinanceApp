@@ -1,0 +1,181 @@
+{
+  "_version": "1.60.0",
+  "sap.app": {
+    "id": "personalfianance.mytransactions",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.16.2",
+      "toolsId": "bc136a36-9600-4613-a8b1-8f850d8e42e1"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/service/transactionService/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "odataVersion": "4.0"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "personalfianancemytransactions-display": {
+          "semanticObject": "personalfianancemytransactions",
+          "action": "display",
+          "title": "{{flpTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.120.13",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "personalfianance.mytransactions.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {},
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "TransactionsList",
+          "target": "TransactionsList"
+        },
+        {
+          "pattern": "Transactions({key}):?query:",
+          "name": "TransactionsObjectPage",
+          "target": "TransactionsObjectPage"
+        }
+      ],
+      "targets": {
+        "TransactionsList": {
+          "type": "Component",
+          "id": "TransactionsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/Transactions",
+              "variantManagement": "Page",
+              "navigation": {
+                "Transactions": {
+                  "detail": {
+                    "route": "TransactionsObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  },
+                  "columns": {
+                    "DataField::amount": {
+                      "width": "20%"
+                    },
+                    "DataField::denomination_code": {
+                      "width": "15%"
+                    },
+                    "DataField::transactionType_ID": {
+                      "width": "20%"
+                    },
+                    "DataField::amountFrom": {
+                      "width": "20%"
+                    },
+                    "DataField::amountTo": {
+                      "width": "20%"
+                    }
+                  },
+                  "actions": {
+                    "idGetBalance2": {
+                      "press": "personalfianance.mytransactions.ext.controller.GetUserBalance.getBalance",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": false,
+                      "text": "{i18n>getBalance}"
+                    }
+                  }
+                }
+              },
+              "initialLoad": "Enabled"
+            }
+          }
+        },
+        "TransactionsObjectPage": {
+          "type": "Component",
+          "id": "TransactionsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/Transactions"
+            }
+          }
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}
